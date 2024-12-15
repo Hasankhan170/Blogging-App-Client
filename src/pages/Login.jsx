@@ -1,11 +1,16 @@
 import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
+    const [loading,setLoading] = useState(false)
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
       } = useForm()
 
@@ -13,11 +18,18 @@ const Login = () => {
 
       const login = async (data) => {
         try {
+            setLoading(true)
           const response = await axios.post(
             "http://localhost:3000/api/users/login",
             data
           );
-          console.log("User logged in successfully:", response.data);
+          reset();
+          
+          setTimeout(()=>{
+              alert('successfully logged in')
+              console.log("User logged in successfully:", response.data);
+            navigate("/Dashboard")
+          },1000)
     
         }catch (error) {   
             if (error.response) {
@@ -31,6 +43,8 @@ const Login = () => {
                 }
               }
             }
+          }finally{
+            setLoading(false)
           }
       };
   return (
@@ -61,9 +75,14 @@ const Login = () => {
         {errors.password && <p className="text-red-500 text-start mx-1 mb-2">{errors.password.message}</p>}
 
 
-        <button className="btn bg-info hover:bg-info w-full text-lg text-white" type="submit">
+        
+        {
+            loading ? <button className="btn bg-info hover:bg-info w-full text-lg text-white" type="submit">
+            Loading...
+          </button> : <button className="btn bg-info hover:bg-info w-full text-lg text-white" type="submit">
           Login
         </button>
+        }
       </form>
     </div>
     </>
