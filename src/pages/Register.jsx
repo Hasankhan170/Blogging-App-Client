@@ -1,10 +1,12 @@
 import axios from "axios";
+import { useState } from "react";
 import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom"
 
 const Register = () => {
 
   const navigate = useNavigate()
+  const [imageUrl, setImageUrl] = useState('');
     const {
         register,
         handleSubmit,
@@ -31,6 +33,11 @@ const Register = () => {
             }
           );
           console.log("User registered successfully:", response.data);
+          setImageUrl(response.data.data.image);
+          console.log(response.data.data.image);
+
+          
+          
           navigate("/login")
         } catch (error) {
           console.error("Error registering user:", error.response?.data || error.message);
@@ -82,6 +89,9 @@ const Register = () => {
         </button>
       </form>
     </div>
+    {imageUrl && <img src={imageUrl} alt="User uploaded" className="w-full max-w-xs mx-auto" />}
+
+
     </>
   )
 }
