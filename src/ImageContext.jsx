@@ -1,15 +1,27 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState, useContext, useEffect } from 'react';
 
-const ImageContext  = createContext()
+const ImageContext = createContext();
 
-export const ImageProvider = ({ children })=>{
-    const [imageUrl, setImageUrl] = useState('')
+export const ImageProvider = ({ children }) => {
+  const [imageUrl, setImageUrl] = useState('');
 
-    return (
-        <ImageContext.Provider value={{imageUrl,setImageUrl}}>
-            {children}
-        </ImageContext.Provider>
-    )
-}
+  useEffect(() => {
+    const savedImageUrl = sessionStorage.getItem('imageUrl');
+    if (savedImageUrl) {
+      setImageUrl(savedImageUrl);
+    }
+  }, []);
+
+  const updateImageUrl = (url) => {
+    setImageUrl(url);
+    sessionStorage.setItem('imageUrl', url); // Save image to sessionStorage
+  };
+
+  return (
+    <ImageContext.Provider value={{ imageUrl, setImageUrl: updateImageUrl }}>
+      {children}
+    </ImageContext.Provider>
+  );
+};
 
 export const useImage = () => useContext(ImageContext);

@@ -4,6 +4,7 @@ import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom"
 import { useImage } from "../ImageContext.jsx";
 
+
 const Register = () => {
 
   const navigate = useNavigate()
@@ -14,6 +15,8 @@ const Register = () => {
         formState: { errors },
       } = useForm()
     
+
+      
       const submissions = async (data) => {
     
         // Create FormData object
@@ -22,6 +25,8 @@ const Register = () => {
         formData.append("email", data.email);
         formData.append("password",  data.password);
         formData.append("image",  data.image[0]); 
+
+        
     
         try {
           const response = await axios.post(
@@ -34,21 +39,18 @@ const Register = () => {
             }
           );
           console.log("User registered successfully:", response.data);
-          if (response.data?.data?.image) {
-            setImageUrl(response.data.data.image); // Update state only if image exists
-          } else {
-            console.error('No image URL received in response');
+          const imageUrl = response.data?.data?.image;
+          if (imageUrl) {
+            setImageUrl(imageUrl); 
           }
-          
-          // console.log(response.data.data.image);
-
-          
           
           navigate("/login")
         } catch (error) {
           console.error("Error registering user:", error.response?.data || error.message);
         }
       };
+
+
     
   return (
     <>
