@@ -1,12 +1,13 @@
 import axios from "axios";
-import { useState } from "react";
+// import { useState } from "react";
 import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom"
+import { useImage } from "../ImageContext.jsx";
 
 const Register = () => {
 
   const navigate = useNavigate()
-  const [imageUrl, setImageUrl] = useState('');
+  const { setImageUrl } = useImage();
     const {
         register,
         handleSubmit,
@@ -33,8 +34,13 @@ const Register = () => {
             }
           );
           console.log("User registered successfully:", response.data);
-          setImageUrl(response.data.data.image);
-          console.log(response.data.data.image);
+          if (response.data?.data?.image) {
+            setImageUrl(response.data.data.image); // Update state only if image exists
+          } else {
+            console.error('No image URL received in response');
+          }
+          
+          // console.log(response.data.data.image);
 
           
           
@@ -89,9 +95,6 @@ const Register = () => {
         </button>
       </form>
     </div>
-    {imageUrl && <img src={imageUrl} alt="User uploaded" className="w-full max-w-xs mx-auto" />}
-
-
     </>
   )
 }
