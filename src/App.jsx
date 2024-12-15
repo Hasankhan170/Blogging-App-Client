@@ -1,21 +1,24 @@
 import axios from "axios";
-import { useRef } from "react";
+import './index.css';
+import {useForm} from "react-hook-form";
+
 
 const App = () => {
-  const name = useRef();
-  const email = useRef();
-  const password = useRef();
-  const image = useRef(); 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+  const submissions = async (data) => {
 
     // Create FormData object
     const formData = new FormData();
-    formData.append("username", name.current.value);
-    formData.append("email", email.current.value);
-    formData.append("password", password.current.value);
-    formData.append("image", image.current.files[0]); 
+    formData.append("username", data.name);
+    formData.append("email", data.email);
+    formData.append("password",  data.password);
+    formData.append("image",  data.image[0]); 
 
     try {
       const response = await axios.post(
@@ -35,15 +38,50 @@ const App = () => {
 
   return (
     <>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <input type="text" ref={name} placeholder="Username" required />
-          <input type="email" ref={email} placeholder="Email" required />
-          <input type="password" ref={password} placeholder="Password" required />
-          <input type="file" ref={image} placeholder="Image" required />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+       <div className="flex justify-center mt-5 p-5">
+      <form
+        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
+        className="p-8 w-full max-w-md bg-white rounded-lg"
+        onSubmit={handleSubmit(submissions)}
+      >
+        <h1 className="text-lg font-bold p-2 mb-5">Register</h1>
+        <input
+          className="input input-bordered w-full mb-3"
+          {...register("name", { required: "Name is required" })}
+          type="text"
+          placeholder="Username"
+        />
+        {errors.name && <p className="text-red-500 mb-2 text-start mx-1">{errors.name.message}</p>}
+
+        <input
+          className="input input-bordered w-full mb-3"
+          {...register("email", { required: "Email is required" })}
+          type="email"
+          placeholder="Email"
+        />
+        {errors.email && <p className="text-red-500 mb-2 text-start mx-1">{errors.email.message}</p>}
+
+        <input
+          className="input input-bordered w-full mb-3"
+          {...register("password", { required: "Password is required" })}
+          type="password"
+          placeholder="Password"
+        />
+        {errors.password && <p className="text-red-500 text-start mx-1 mb-2">{errors.password.message}</p>}
+
+        <input
+          className="file-input file-input-bordered file-input-info w-full mb-3"
+          {...register("image", { required: "Image is required" })}
+          type="file"
+        />
+        {errors.image && <p className="text-red-500 text-start mb-2 mx-1">{errors.image.message}</p>}
+
+        <button className="btn bg-info hover:bg-info w-full text-lg text-white" type="submit">
+          Submit
+        </button>
+      </form>
+    </div>
+      
     </>
   );
 };
