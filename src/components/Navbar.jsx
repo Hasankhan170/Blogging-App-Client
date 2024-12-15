@@ -33,7 +33,7 @@ const Navbar = () => {
                 </>
               )} */}
                   <li><Link to= "/Register" className="justify-between">Register</Link></li>
-                  <li><Link to= "Dashboard">DashBoard</Link></li>
+                  <li><Link to= "/Login">Login</Link></li>
                   {/* {isUserLoggedIn && (
                 <li>
                   <button onClick={handleLogout}>Logout</button>

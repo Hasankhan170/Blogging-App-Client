@@ -1,9 +1,71 @@
+import axios from "axios";
+import { useForm } from "react-hook-form"
 
 
 const Login = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm()
+
+     
+
+      const login = async (data) => {
+        try {
+          const response = await axios.post(
+            "http://localhost:3000/api/users/login",
+            data
+          );
+          console.log("User logged in successfully:", response.data);
+    
+        }catch (error) {   
+            if (error.response) {
+              console.log("Error response data:", error.response.data); 
+              if (error.response.status === 401) {
+                if (error.response.data.message && error.response.data.message.includes("wrong email")) {
+                  alert("Email is incorrect.");
+                } 
+                 if (error.response.data.message && error.response.data.message.includes("wrong password")) {
+                  alert("Password is incorrect.");
+                }
+              }
+            }
+          }
+      };
   return (
     <>
-    <h1>login</h1>
+    <div className="flex justify-center mt-5 p-5">
+      <form
+        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
+        className="p-8 w-full max-w-md bg-white rounded-lg"
+        onSubmit={handleSubmit(login)}
+      >
+        <h1 className="text-lg font-bold p-2 mb-5">Login</h1>
+       
+
+        <input
+          className="input input-bordered w-full mb-3"
+          {...register("email", { required: "Email is required" })}
+          type="email"
+          placeholder="Email"
+        />
+        {errors.email && <p className="text-red-500 mb-2 text-start mx-1">{errors.email.message}</p>}
+
+        <input
+          className="input input-bordered w-full mb-3"
+          {...register("password", { required: "Password is required" })}
+          type="password"
+          placeholder="Password"
+        />
+        {errors.password && <p className="text-red-500 text-start mx-1 mb-2">{errors.password.message}</p>}
+
+
+        <button className="btn bg-info hover:bg-info w-full text-lg text-white" type="submit">
+          Login
+        </button>
+      </form>
+    </div>
     </>
   )
 }
