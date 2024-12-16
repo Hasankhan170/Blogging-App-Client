@@ -7,6 +7,7 @@ export const ImageProvider = ({ children }) => {
 
   useEffect(() => {
     const savedImageUrl = sessionStorage.getItem('imageUrl');
+
     if (savedImageUrl) {
       setImageUrl(savedImageUrl);
     }
@@ -14,7 +15,8 @@ export const ImageProvider = ({ children }) => {
 
   const updateImageUrl = (url) => {
     setImageUrl(url);
-    sessionStorage.setItem('imageUrl', url); // Save image to sessionStorage
+    sessionStorage.setItem('imageUrl', url); 
+    
   };
 
   return (

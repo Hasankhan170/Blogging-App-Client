@@ -11,6 +11,7 @@ const Logout = () => {
             console.log(response);
             alert('Logged out successfully')
             sessionStorage.removeItem('imageUrl');
+            
             navigate('/login')
         } catch (error) {
             console.error(error);

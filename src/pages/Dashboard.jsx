@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import '../pages/Dashboard.css'
 import axios from "axios"
 
@@ -7,7 +7,7 @@ import axios from "axios"
 const Dashboard = () => {
 
    const [loading,setLoading] = useState(false)
-  //  const [arr,setArr] = useState([])
+   const [arr,setArr] = useState([])
 
       const {
           register,
@@ -15,19 +15,28 @@ const Dashboard = () => {
           formState: { errors },
         } = useForm()
 
+
+
         const postBlog = async (data) => {
+
+          const userId = localStorage.getItem("userId"); 
+          if (!userId) {
+            alert("You must be logged in to post a blog.");
+            return;
+          }
           try {
-            // Sending data to the backend
             console.log("Sending request to:", "http://localhost:3000/api/blogs/createBlog");
             const response = await axios.post(
               "http://localhost:3000/api/blogs/createBlog",
               {
                 title: data.title,
                 description: data.description,
-                userId: "676045d0a5c1e74d6d1b5b1e", 
+                userId: userId 
               }
             );
+
             console.log("Blog created successfully:", response.data);
+            
           } catch (error) {
             console.error("Error creating blog:", error.response?.data || error.message);
           }
@@ -72,6 +81,8 @@ const Dashboard = () => {
         }
     </form>
   </div>
+
+  
 
 
   {/* my blogs section  */}

@@ -24,6 +24,9 @@ const Login = () => {
             data
           );
           reset();
+
+          sessionStorage.setItem("imageUrl", response.data.data.image);
+          sessionStorage.setItem("userId", response.data.data.userId);
           
           setTimeout(()=>{
               alert('successfully logged in')

@@ -36,7 +36,12 @@ const Register = () => {
               },
             }
           );
+          
           console.log("User registered successfully:", response.data);
+          const userId = response.data.data._id; 
+          localStorage.setItem("userId",userId)
+          console.log("User id:", response.data.data._id);
+
           const imageUrl = response.data?.data?.image;
           if (imageUrl) {
             setImageUrl(imageUrl); 

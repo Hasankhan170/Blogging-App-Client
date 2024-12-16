@@ -1,10 +1,24 @@
 import { Link } from "react-router-dom"
 import { useImage } from "../ImageContext.jsx";
 import Logout from "../pages/Logout.jsx";
+import { useEffect, useState } from "react";
 
 
 const Navbar = () => {
   const { imageUrl } = useImage();
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    
+    const userId = sessionStorage.getItem("userId");
+    const storedImageUrl = sessionStorage.getItem("imageUrl");
+
+    if (userId && storedImageUrl) {
+      setIsUserLoggedIn(true); 
+    } else {
+      setIsUserLoggedIn(false);
+    }
+  }, []);
   return (
     <>
      <div className="navbar  px-5 bg-info">
@@ -32,23 +46,16 @@ const Navbar = () => {
                   tabIndex={0}
                   className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                   <li><Link to= "">Home</Link></li>
-                  {/* {!isUserLoggedIn && (
+                  {!isUserLoggedIn && (
                 <>
                   <li><Link to="Login">Login</Link></li>
                   <li><Link to="Register">Register</Link></li>
                 </>
-              )} */}
-                  <li><Link to= "/Register" className="justify-between">Register</Link></li>
-                  <li><Link to= "/Login">Login</Link></li>
+              )}
+                  {/* <li><Link to= "/Register" className="justify-between">Register</Link></li>
+                  <li><Link to= "/Login">Login</Link></li> */}
                   <li><Link to= "/Dashboard">DashBoard</Link></li>
                   <li><Logout/></li>
-
-
-                  {/* {isUserLoggedIn && (
-                <li>
-                  <button onClick={handleLogout}>Logout</button>
-                </li>
-              )} */}
                 </ul>
               </div>
             </div>
