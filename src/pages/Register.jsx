@@ -26,8 +26,6 @@ const Register = () => {
         formData.append("password",  data.password);
         formData.append("image",  data.image[0]); 
 
-        
-    
         try {
           const response = await axios.post(
             "http://localhost:3000/api/users/register",
