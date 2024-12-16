@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { useImage } from "../ImageContext.jsx";
+import Logout from "../pages/Logout.jsx";
 
 
 const Navbar = () => {
@@ -39,6 +40,10 @@ const Navbar = () => {
               )} */}
                   <li><Link to= "/Register" className="justify-between">Register</Link></li>
                   <li><Link to= "/Login">Login</Link></li>
+                  <li><Link to= "/Dashboard">DashBoard</Link></li>
+                  <li><Logout/></li>
+
+
                   {/* {isUserLoggedIn && (
                 <li>
                   <button onClick={handleLogout}>Logout</button>

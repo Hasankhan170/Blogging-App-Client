@@ -6,6 +6,7 @@ import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import { ImageProvider } from './ImageContext'; 
+import Logout from './pages/Logout.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: '/Dashboard',
         element: <Dashboard />
+      },
+      {
+        path: '/Logout',
+        element: <Logout/>
       }
     ]
   }
