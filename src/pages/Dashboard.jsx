@@ -25,6 +25,7 @@ const Dashboard = () => {
             const storedImageUrl = sessionStorage.getItem("imageUrl");
             console.log(storedImageUrl,userId);
             
+            
             if (userId && storedImageUrl) {
               setIsUserLoggedIn(true); 
             } else {
@@ -34,11 +35,11 @@ const Dashboard = () => {
             if (!userId) {
               console.error("User ID not found in localStorage");
               return;
-          }
-          try {
-            const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`)
-            console.log(response.data.data);
-            setSingleUser(response.data.data)
+            }
+            try {
+              const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`)
+              console.log(response.data.data);
+              setSingleUser(response.data.data)
           } catch (error) {
             console.log(error);
             
@@ -73,6 +74,8 @@ const Dashboard = () => {
             );
 
             console.log("Blog created successfully:", response.data);
+            setSingleUser(prevBlog => [...prevBlog,response.data.data])
+            
             reset()
             
           } catch (error) {
@@ -82,7 +85,7 @@ const Dashboard = () => {
           }
         };
         
-       
+        
   return (
     <>
   
@@ -123,7 +126,8 @@ const Dashboard = () => {
    <h3 className="m-5 mx-10 text-4xl font-bold">My Blogs</h3>
   <div className="my-blogs-render mb-4">
    {
-    singleUser.map((blog) => (
+    singleUser ? singleUser.map((blog) => (
+      
       <div key={blog._id} className="under-rendering ">
        <div className='flex justify-between flex-wrap h-auto'>
        <div  className="under-title flex">
@@ -154,7 +158,7 @@ const Dashboard = () => {
           <button className='btn hover:bg-emerald-500'>Edit</button>
         </div>
       </div>
-    ))
+    )): <h1>no data found</h1>
   } 
  </div> 
 
