@@ -22,7 +22,9 @@ const Dashboard = () => {
         // get single user blog
         useEffect(()=>{
           const singleUserBlog = async ()=>{
-            const userId = localStorage.getItem("userId"); 
+          const userId = localStorage.getItem("userId"); 
+          console.log(userId);
+          
             const storedImageUrl = sessionStorage.getItem("imageUrl");
             console.log(storedImageUrl,userId);
             if (userId && storedImageUrl) {
@@ -37,8 +39,8 @@ const Dashboard = () => {
             }
             try {
               
-              const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`)
-              console.log(response.data.data);
+              const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`);
+              console.log(response.data);
               setSingleUser(response.data.data)
           } catch (error) {
             console.log(error);  
