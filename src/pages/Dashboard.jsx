@@ -11,6 +11,7 @@ const Dashboard = () => {
    const { imageUrl } = useImage();
    const [singleUser,setSingleUser] = useState([])
    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+   const [loadingBlogs, setLoadingBlogs] = useState(true);
 
       const {
           register,
@@ -20,34 +21,24 @@ const Dashboard = () => {
         } = useForm()
         
         // get single user blog
-        useEffect(()=>{
-          const singleUserBlog = async ()=>{
-          const userId = localStorage.getItem("userId"); 
-          console.log(userId);
-          
-            const storedImageUrl = sessionStorage.getItem("imageUrl");
-            console.log(storedImageUrl,userId);
-            if (userId && storedImageUrl) {
-              setIsUserLoggedIn(true); 
-            } else {
-              setIsUserLoggedIn(false);
-            }
-            console.log(userId);
+        useEffect(() => {
+          const singleUserBlog = async () => {
+            const userId = localStorage.getItem("userId");
             if (!userId) {
               console.error("User ID not found in localStorage");
               return;
             }
             try {
-              
               const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`);
-              console.log(response.data);
-              setSingleUser(response.data.data)
-          } catch (error) {
-            console.log(error);  
-          }
-          }
-          singleUserBlog()
-        },[])
+              setSingleUser(response.data.data);
+              setLoadingBlogs(false);
+            } catch (error) {
+              console.log(error);
+              setLoadingBlogs(false); // Stop loading if there's an error
+            }
+          };
+          singleUserBlog();
+        }, []);
 
 
         // user post blog
