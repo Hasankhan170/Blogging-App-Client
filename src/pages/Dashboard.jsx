@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import '../pages/Dashboard.css'
 import axios from "axios"
@@ -16,8 +16,26 @@ const Dashboard = () => {
           formState: { errors },
         } = useForm()
 
+        useEffect(()=>{
+          const singleUserBlog = async ()=>{
+            const userId = localStorage.getItem("userId"); 
+            console.log(userId);
+            if (!userId) {
+              console.error("User ID not found in localStorage");
+              return;
+          }
+          const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`)
+          console.log(response.data.data);
+          
+          }
+          
+          
+
+          singleUserBlog()
+        },[])
 
 
+        // user post blog
         const postBlog = async (data) => {
           
           setLoading(true)
@@ -47,7 +65,7 @@ const Dashboard = () => {
           }
         };
         
-        
+       
   return (
     <>
   
