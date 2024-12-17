@@ -1,27 +1,31 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 const Logout = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const logout = async ()=>{
-        try {
-            const response = await axios.post("http://localhost:3000/api/users/logout");
-            console.log(response);
-            alert('Logged out successfully')
-            sessionStorage.removeItem('imageUrl');
-            
-            navigate('/login')
-        } catch (error) {
-            console.error(error);
-        }
+  const logout = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/users/logout");
+      console.log(response);
+
+      // Remove session data
+      sessionStorage.removeItem("userId");
+      sessionStorage.removeItem("imageUrl");
+      
+      // Set the login state to false
+     
+
+      alert('Logged out successfully');
+      navigate('/login'); // Redirect to login page
+    } catch (error) {
+      console.error(error);
     }
-  return (
-    <>
-     <button onClick={logout}>Logout</button>
-    </>
-  )
-}
+  };
 
-export default Logout
+  return (
+    <button onClick={logout}>Logout</button>
+  );
+};
+
+export default Logout;

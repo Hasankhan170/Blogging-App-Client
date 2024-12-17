@@ -18,14 +18,13 @@ const Dashboard = () => {
           reset,
           formState: { errors },
         } = useForm()
-
+        
+        // get single user blog
         useEffect(()=>{
           const singleUserBlog = async ()=>{
             const userId = localStorage.getItem("userId"); 
             const storedImageUrl = sessionStorage.getItem("imageUrl");
             console.log(storedImageUrl,userId);
-            
-            
             if (userId && storedImageUrl) {
               setIsUserLoggedIn(true); 
             } else {
@@ -37,18 +36,14 @@ const Dashboard = () => {
               return;
             }
             try {
+              
               const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`)
               console.log(response.data.data);
               setSingleUser(response.data.data)
           } catch (error) {
-            console.log(error);
-            
+            console.log(error);  
           }
-          
           }
-          
-          
-
           singleUserBlog()
         },[])
 
@@ -74,7 +69,6 @@ const Dashboard = () => {
             );
 
             console.log("Blog created successfully:", response.data);
-            setSingleUser(prevBlog => [...prevBlog,response.data.data])
             
             reset()
             
@@ -160,7 +154,7 @@ const Dashboard = () => {
       </div>
     )): <h1>no data found</h1>
   } 
- </div> 
+  </div> 
 
  </>
   )

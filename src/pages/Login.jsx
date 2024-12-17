@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [loading,setLoading] = useState(false)
+    const [userId, setUserId] = useState(null);
     const navigate = useNavigate()
     const {
         register,
@@ -25,14 +26,29 @@ const Login = () => {
           );
           reset();
 
-          sessionStorage.setItem("imageUrl", response.data.data.image);
-          sessionStorage.setItem("userId", response.data.data.userId);
-          
-          setTimeout(()=>{
-              alert('successfully logged in')
-              console.log("User logged in successfully:", response.data);
-            navigate("/Dashboard")
-          },1000)
+          if (response.data && response.data.data){
+            const { _id, image } = response.data.data;
+            const { accessToken, refreshToken } = response.data;
+
+            localStorage.setItem("userId", _id);
+            localStorage.setItem("imageUrl", image);
+
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+
+            console.log("Logged in successfully:", response.data.data);
+
+            setUserId(_id);
+
+            setTimeout(() => {
+              alert('Successfully logged in');
+              navigate("/Dashboard");
+            }, 1000);
+            
+          }else{
+            console.error("userId is not returned in the response");
+            alert("Failed to log in: userId not returned.");
+          }
     
         }catch (error) {   
             if (error.response) {
@@ -88,6 +104,12 @@ const Login = () => {
         }
       </form>
     </div>
+
+    {userId && (
+            <p className="text-green-500 mt-2">
+              Logged in as userId: {userId}
+            </p>
+     )}
     </>
   )
 }

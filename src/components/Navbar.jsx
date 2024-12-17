@@ -46,12 +46,12 @@ const Navbar = () => {
                   tabIndex={0}
                   className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                   <li><Link to= "">Home</Link></li>
-                  {!isUserLoggedIn && (
+                 
                 <>
                   <li><Link to="Login">Login</Link></li>
                   <li><Link to="Register">Register</Link></li>
                 </>
-              )}
+              
                   {/* <li><Link to= "/Register" className="justify-between">Register</Link></li>
                   <li><Link to= "/Login">Login</Link></li> */}
                   <li><Link to= "/Dashboard">DashBoard</Link></li>
