@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import '../pages/Dashboard.css'
 import axios from "axios"
 
@@ -7,18 +7,20 @@ import axios from "axios"
 const Dashboard = () => {
 
    const [loading,setLoading] = useState(false)
-   const [arr,setArr] = useState([])
+  //  const [arr,setArr] = useState([])
 
       const {
           register,
           handleSubmit,
+          reset,
           formState: { errors },
         } = useForm()
 
 
 
         const postBlog = async (data) => {
-
+          
+          setLoading(true)
           const userId = localStorage.getItem("userId"); 
           if (!userId) {
             alert("You must be logged in to post a blog.");
@@ -36,9 +38,12 @@ const Dashboard = () => {
             );
 
             console.log("Blog created successfully:", response.data);
+            reset()
             
           } catch (error) {
             console.error("Error creating blog:", error.response?.data || error.message);
+          }finally{
+            setLoading(false)
           }
         };
         
@@ -50,8 +55,7 @@ const Dashboard = () => {
   <h3 className="m-5 mx-10 text-4xl font-bold">DashBoard</h3>
   <div className="dashboard-main">
   <form onSubmit={handleSubmit(postBlog)} className="dashboard-form">
-      
-      {/* Title input with "required" validation */}
+    
       <input
         {...register("title", {
           required: "This field is required"
@@ -63,8 +67,6 @@ const Dashboard = () => {
       {errors.title && <p style={{ color: 'red' }}>{errors.title.message}</p>}
       
       <br />
-
-      {/* Description textarea with "required" validation */}
       <textarea
         {...register("description", {
           required: "This field is required"
@@ -82,10 +84,14 @@ const Dashboard = () => {
     </form>
   </div>
 
-  
+ </>
+  )
+}
+
+export default Dashboard
 
 
-  {/* my blogs section  */}
+ {/* my blogs section  */}
   {/* <h3 className="m-5 mx-10 text-4xl font-bold">My Blogs</h3>
   <div className="my-blogs-render mb-4"> */}
   {/* {
@@ -188,12 +194,3 @@ const Dashboard = () => {
           </div>
         </div>
       )} */}
-
-
-
-
- </>
-  )
-}
-
-export default Dashboard
