@@ -7,7 +7,7 @@ import axios from "axios"
 const Dashboard = () => {
 
    const [loading,setLoading] = useState(false)
-  //  const [arr,setArr] = useState([])
+   const [singleUser,setSingleUser] = useState([])
 
       const {
           register,
@@ -24,8 +24,14 @@ const Dashboard = () => {
               console.error("User ID not found in localStorage");
               return;
           }
-          const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`)
-          console.log(response.data.data);
+          try {
+            const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`)
+            console.log(response.data.data);
+            setSingleUser(response.data.data)
+          } catch (error) {
+            console.log(error);
+            
+          }
           
           }
           
@@ -102,22 +108,15 @@ const Dashboard = () => {
     </form>
   </div>
 
- </>
-  )
-}
-
-export default Dashboard
-
-
- {/* my blogs section  */}
-  {/* <h3 className="m-5 mx-10 text-4xl font-bold">My Blogs</h3>
-  <div className="my-blogs-render mb-4"> */}
-  {/* {
-    renderBlogs.map((blog,index) => (
-      <div key={blog.id} className="under-rendering ">
+  {/* my blogs section  */}
+   <h3 className="m-5 mx-10 text-4xl font-bold">My Blogs</h3>
+  <div className="my-blogs-render mb-4">
+   {
+    singleUser.map((blog) => (
+      <div key={blog._id} className="under-rendering ">
        <div className='flex justify-between flex-wrap h-auto'>
        <div  className="under-title flex">
-        <img
+        {/* <img
   style={{
     width: '50px',
     height: '50px', 
@@ -125,11 +124,8 @@ export default Dashboard
     objectFit: 'cover' 
   }}
   alt="User Avatar"
-  src="" />
+  src="" /> */}
           <h3 className='px-5'>{blog.title}</h3>
-        </div>
-        <div>
-        <p style={{fontSize:'12px'}}>{new Date(blog.timestamp.toDate()).toLocaleString()}</p>
         </div>
        </div>
         <div>
@@ -144,8 +140,17 @@ export default Dashboard
         </div>
       </div>
     ))
-  } */}
-{/* </div> */}
+  } 
+ </div> 
+
+ </>
+  )
+}
+
+export default Dashboard
+
+
+ 
 
 
 
