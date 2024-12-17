@@ -2,12 +2,15 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import '../pages/Dashboard.css'
 import axios from "axios"
+import { useImage } from "../ImageContext"
 
 
 const Dashboard = () => {
 
    const [loading,setLoading] = useState(false)
+   const { imageUrl } = useImage();
    const [singleUser,setSingleUser] = useState([])
+   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
       const {
           register,
@@ -19,6 +22,14 @@ const Dashboard = () => {
         useEffect(()=>{
           const singleUserBlog = async ()=>{
             const userId = localStorage.getItem("userId"); 
+            const storedImageUrl = sessionStorage.getItem("imageUrl");
+            console.log(storedImageUrl,userId);
+            
+            if (userId && storedImageUrl) {
+              setIsUserLoggedIn(true); 
+            } else {
+              setIsUserLoggedIn(false);
+            }
             console.log(userId);
             if (!userId) {
               console.error("User ID not found in localStorage");
@@ -116,7 +127,9 @@ const Dashboard = () => {
       <div key={blog._id} className="under-rendering ">
        <div className='flex justify-between flex-wrap h-auto'>
        <div  className="under-title flex">
-        {/* <img
+        {
+          imageUrl && (
+            <img
   style={{
     width: '50px',
     height: '50px', 
@@ -124,7 +137,9 @@ const Dashboard = () => {
     objectFit: 'cover' 
   }}
   alt="User Avatar"
-  src="" /> */}
+  src={imageUrl} />
+          )
+        }
           <h3 className='px-5'>{blog.title}</h3>
         </div>
        </div>
