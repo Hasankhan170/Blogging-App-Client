@@ -2,15 +2,12 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import '../pages/Dashboard.css'
 import axios from "axios"
-// import { useImage } from "../ImageContext"
 
 
 const Dashboard = () => {
 
    const [loading,setLoading] = useState(false)
-  //  const { imageUrl } = useImage();
    const [singleUser,setSingleUser] = useState([])
-  //  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
    const [loadingBlogs, setLoadingBlogs] = useState(true);
    const [image,setImage] = useState(false)
 
@@ -56,7 +53,6 @@ const Dashboard = () => {
             return;
           }
           try {
-            console.log("Sending request to:", "http://localhost:3000/api/blogs/createBlog");
             const response = await axios.post(
               "http://localhost:3000/api/blogs/createBlog",
               {
@@ -76,6 +72,16 @@ const Dashboard = () => {
             setLoading(false)
           }
         };
+
+        //user delete blog
+        const deleteBlog = async(_id)=>{
+          console.log("blog ID",_id);
+
+          const response = await axios.delete(`http://localhost:3000/api/blogs/deleteBlog/${_id}`)
+          console.log(response);
+          
+          
+        }
         
         
   return (
@@ -146,7 +152,7 @@ const Dashboard = () => {
           <p className="under">{blog.description}</p>
         </div>
         <div className='flex gap-5 mt-5 flex-wrap'>
-          <button className='btn hover:bg-red-500'>Delete</button>
+          <button onClick={()=>deleteBlog(blog._id)} className='btn hover:bg-red-500'>Delete</button>
           <button className='btn hover:bg-emerald-500'>Edit</button>
         </div>
       </div>
