@@ -30,7 +30,7 @@ const Home = () => {
                 <div className="card-body" style={{ padding: '16px' }}>
                   {blog.author.image && (
                     <img
-                      src={blog.author.image} // Use blog.author.image for the user's profile image
+                      src={blog.author.image} 
                       alt="User Profile"
                       style={{
                         width: '50px',
@@ -52,11 +52,6 @@ const Home = () => {
                   >
                     {blog.description}
                   </div>
-                  {blog.timestamp && (
-                    <p className="text-gray-500 text-sm">
-                      Posted on: {new Date(blog.timestamp).toLocaleString()}
-                    </p>
-                  )}
                 </div>
               </div>
             ))}
