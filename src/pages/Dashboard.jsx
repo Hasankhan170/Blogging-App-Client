@@ -19,26 +19,27 @@ const Dashboard = () => {
         } = useForm()
         
         // get single user blog
+
+        const singleUserBlog = async () => {
+          const userId = localStorage.getItem("userId");
+          const imageUrl = localStorage.getItem("imageUrl")
+          setImage(imageUrl)
+          
+          
+          if (!userId) {
+            console.error("User ID not found in localStorage");
+            return;
+          }
+          try {
+            const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`);
+            setSingleUser(response.data.data);
+            setLoadingBlogs(false);
+          } catch (error) {
+            console.log(error);
+            setLoadingBlogs(false); // Stop loading if there's an error
+          }
+        };
         useEffect(() => {
-          const singleUserBlog = async () => {
-            const userId = localStorage.getItem("userId");
-            const imageUrl = localStorage.getItem("imageUrl")
-            setImage(imageUrl)
-            
-            
-            if (!userId) {
-              console.error("User ID not found in localStorage");
-              return;
-            }
-            try {
-              const response = await axios.get(`http://localhost:3000/api/blogs/singleBlog/${userId}`);
-              setSingleUser(response.data.data);
-              setLoadingBlogs(false);
-            } catch (error) {
-              console.log(error);
-              setLoadingBlogs(false); // Stop loading if there's an error
-            }
-          };
           singleUserBlog();
         }, []);
 
@@ -63,6 +64,7 @@ const Dashboard = () => {
             );
 
             console.log("Blog created successfully:", response.data);
+            singleUserBlog()
             
             reset()
             
@@ -79,6 +81,7 @@ const Dashboard = () => {
 
           const response = await axios.delete(`http://localhost:3000/api/blogs/deleteBlog/${_id}`)
           console.log(response);
+          singleUserBlog()
           
           
         }
