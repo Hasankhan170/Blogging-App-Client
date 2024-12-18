@@ -1,13 +1,12 @@
 import axios from "axios";
 import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom"
-import { useImage } from "../ImageContext.jsx";
 
 
 const Register = () => {
 
   const navigate = useNavigate()
-  const { setImageUrl } = useImage();
+
   
     const {
         register,
@@ -37,14 +36,11 @@ const Register = () => {
           
           console.log("User registered successfully:", response.data);
           const userId = response.data.data._id; 
+          const image = response.data.data.image; 
           localStorage.setItem("userId",userId)
+          localStorage.setItem("imageUrl",image)
           console.log("User id:", response.data.data._id);
-
-          const imageUrl = response.data?.data?.image;
-          if (imageUrl) {
-            setImageUrl(imageUrl); 
-          }
-          
+          console.log("User image", response.data.data.image);
           navigate("/login")
         } catch (error) {
           console.error("Error registering user:", error.response?.data || error.message);
