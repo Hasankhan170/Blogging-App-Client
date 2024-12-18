@@ -29,6 +29,10 @@ const Login = () => {
           if (response.data && response.data.data){
             const { _id, image } = response.data.data;
             const { accessToken, refreshToken } = response.data;
+            // console.log("accessToken", accessToken);
+            // console.log("refreshToken", accessToken);
+
+            
 
             localStorage.setItem("userId", _id);
             localStorage.setItem("imageUrl", image);

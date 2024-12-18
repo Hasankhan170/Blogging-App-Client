@@ -10,8 +10,8 @@ const Logout = () => {
       console.log(response);
 
       // Remove session data
-      sessionStorage.removeItem("userId");
-      sessionStorage.removeItem("imageUrl");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("imageUrl");
       
       // Set the login state to false
      
