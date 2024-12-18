@@ -93,7 +93,7 @@ const Dashboard = () => {
           const descriptionupdate = prompt("Update blog description")
 
           if(titleupdate == null || titleupdate.trim() === "" || descriptionupdate == null || descriptionupdate.trim() === ""  ){
-            alert("Title and Description  can't be empty")
+            alert("Title and Description ar can't be empty")
             return
           }
 
