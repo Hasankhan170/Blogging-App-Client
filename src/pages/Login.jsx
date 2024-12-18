@@ -28,8 +28,6 @@ const Login = () => {
           if (response.data && response.data.data){
             const { _id, image } = response.data.data;
             const { accessToken, refreshToken } = response.data;
-            // console.log("accessToken", accessToken);
-            // console.log("refreshToken", accessToken);
             localStorage.setItem("userId", _id);
             localStorage.setItem("imageUrl", image);
             localStorage.setItem("accessToken", accessToken);
@@ -101,12 +99,6 @@ const Login = () => {
         }
       </form>
     </div>
-
-    {userId && (
-            <p className="text-green-500 mt-2">
-              Logged in as userId: {userId}
-            </p>
-     )}
     </>
   )
 }

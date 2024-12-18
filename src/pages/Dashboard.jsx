@@ -85,7 +85,29 @@ const Dashboard = () => {
           
           
         }
-        
+
+        //user update blog
+        const editBlog = async (_id)=>{
+          console.log("blog ID",_id);
+          const titleupdate = prompt("Update blog title")
+          const descriptionupdate = prompt("Update blog description")
+
+          if(titleupdate == null || titleupdate.trim() === "" || descriptionupdate == null || descriptionupdate.trim() === ""  ){
+            alert("Title and Description  can't be empty")
+            return
+          }
+
+          
+          const response = await axios.put(`http://localhost:3000/api/blogs/editBlog/${_id}`,
+            {
+              title: titleupdate,
+              description: descriptionupdate,
+            }
+            
+          )
+          console.log(response);
+          singleUserBlog()
+        }
         
   return (
     <>
@@ -156,7 +178,7 @@ const Dashboard = () => {
         </div>
         <div className='flex gap-5 mt-5 flex-wrap'>
           <button onClick={()=>deleteBlog(blog._id)} className='btn hover:bg-red-500'>Delete</button>
-          <button className='btn hover:bg-emerald-500'>Edit</button>
+          <button onClick={()=>editBlog(blog._id)} className='btn hover:bg-emerald-500'>Edit</button>
         </div>
       </div>
     )): <h1>no data found</h1>
