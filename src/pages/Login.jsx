@@ -8,6 +8,7 @@ const Login = () => {
     const [loading,setLoading] = useState(false)
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate()
+
     const {
         register,
         handleSubmit,
@@ -15,9 +16,7 @@ const Login = () => {
         formState: { errors },
       } = useForm()
 
-     
-
-      const login = async (data) => {
+    const login = async (data) => {
         try {
             setLoading(true)
           const response = await axios.post(
@@ -31,19 +30,12 @@ const Login = () => {
             const { accessToken, refreshToken } = response.data;
             // console.log("accessToken", accessToken);
             // console.log("refreshToken", accessToken);
-
-            
-
             localStorage.setItem("userId", _id);
             localStorage.setItem("imageUrl", image);
-
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("refreshToken", refreshToken);
-
             console.log("Logged in successfully:", response.data.data);
-
             setUserId(_id);
-
             setTimeout(() => {
               alert('Successfully logged in');
               navigate("/Dashboard");
@@ -70,6 +62,7 @@ const Login = () => {
             setLoading(false)
           }
       };
+
   return (
     <>
     <div className="flex justify-center mt-5 p-5">

@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { useState } from "react";
 import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom"
 import { useImage } from "../ImageContext.jsx";
@@ -9,15 +8,14 @@ const Register = () => {
 
   const navigate = useNavigate()
   const { setImageUrl } = useImage();
+  
     const {
         register,
         handleSubmit,
         formState: { errors },
       } = useForm()
-    
-
-      
-      const submissions = async (data) => {
+  
+    const submissions = async (data) => {
     
         // Create FormData object
         const formData = new FormData();
