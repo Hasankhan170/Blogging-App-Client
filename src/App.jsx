@@ -30,7 +30,7 @@ const App = () => {
     <Navbar/>
     <Outlet/>
 
-    {
+    {/* {
       blogs.map((blog)=>{
         return (
           <div key={blog._id}>
@@ -39,7 +39,52 @@ const App = () => {
           </div>
         )
       })
-    }
+    } */}
+
+      <div className="container mx-auto p-4">
+        <h1 className="text-3xl font-bold mb-4">All Blogs</h1>
+        {blogs.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {blogs.map((blog) => (
+              <div key={blog._id} className="card w-full bg-base-100 shadow-xl" style={{ minHeight: '250px' }}>
+                <div className="card-body" style={{ padding: '16px' }}>
+                  {blog.profileImage && (
+                    <img
+                      src={blog.profileImage}
+                      alt="User Profile"
+                      style={{
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  )}
+                  <h2 className="card-title">{blog.title}</h2>
+                  <div
+                    style={{
+                      maxHeight: '100px', 
+                      overflowY: 'auto', 
+                      overflowX: 'hidden',
+                      display: 'block',
+                      paddingRight: '5px',
+                    }}
+                  >
+                    {blog.description}
+                  </div>
+                  {blog.timestamp && (
+                    <p className="text-gray-500 text-sm">
+                      Posted on: {new Date(blog.timestamp.toDate()).toLocaleString()}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No blogs available.</p>
+        )}
+      </div>
     
     </>
   );
