@@ -9,15 +9,15 @@ const Logout = () => {
       const response = await axios.post("http://localhost:3000/api/users/logout");
       console.log(response);
 
-      // Remove session data
+      
       localStorage.removeItem("userId");
       localStorage.removeItem("imageUrl");
       
-      // Set the login state to false
+      
      
 
       alert('Logged out successfully');
-      navigate('/login'); // Redirect to login page
+      navigate('/login');
     } catch (error) {
       console.error(error);
     }
