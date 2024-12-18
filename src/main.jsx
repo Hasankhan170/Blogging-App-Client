@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
-import { ImageProvider } from './ImageContext'; 
+// import { ImageProvider } from './ImageContext'; 
 import Logout from './pages/Logout.jsx';
 
 const router = createBrowserRouter([
@@ -34,7 +34,9 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <ImageProvider>
-    <RouterProvider router={router} />
-  </ImageProvider>
+  
+    <RouterProvider router={router}>
+      <App/>
+    </RouterProvider>
+  
 );
