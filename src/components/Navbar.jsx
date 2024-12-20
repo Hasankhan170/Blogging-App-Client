@@ -7,7 +7,7 @@ const Navbar = () => {
   const [userId, setUserId] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
-  useEffect(() => {
+  const updateUserState = () => {
     const storedUserId = localStorage.getItem("userId");
     const storedImageUrl = localStorage.getItem("imageUrl");
 
@@ -19,6 +19,19 @@ const Navbar = () => {
       setIsUserLoggedIn(false);
       setImageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrwcRgFA-KFW6u0wScyvZEBWMLME5WkdeCUg&s"); // Default image URL
     }
+  };
+
+  useEffect(() => {
+    updateUserState(); // Initial state update on mount
+  }, []);
+
+  // Listen for changes in localStorage
+  useEffect(() => {
+    const handleStorageChange = () => {
+      updateUserState();
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   return (
